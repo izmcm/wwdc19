@@ -1,8 +1,6 @@
 import SpriteKit
 
-var stars = 0
-
-public class InstructionsScene: SKScene {
+public class FinalScene: SKScene {
     let FONT_SIZE:CGFloat = 25
     let START_ACTION = 1
     let LIMIT_CODE = 8
@@ -41,7 +39,7 @@ public class InstructionsScene: SKScene {
         paragraphCenter.alignment = .center
         paragraphCenter.firstLineHeadIndent = 5.0
         
-        let background = SKSpriteNode(imageNamed: "backScene00")
+        let background = SKSpriteNode(imageNamed: "backSceneFinal")
         background.size = CGSize(width: screenWidth, height: screenHeight)
         background.position = CGPoint(x: background.frame.size.width/2, y: background.frame.size.height/2)
         self.addChild(background)
@@ -73,18 +71,25 @@ public class InstructionsScene: SKScene {
         undoBtn.position = CGPoint(x: commentLbl.position.x + commentLbl.frame.size.width, y: commentLbl.position.y)
         self.addChild(undoBtn)
         
-        startBtnCode = SKSpriteNode(imageNamed: "startBtnCode")
-        startBtnCode.size = CGSize(width: runBtn.frame.size.width, height: runBtn.frame.size.height)
+        startBtnCode = SKSpriteNode(imageNamed: "playAgainBtn")
+        startBtnCode.size = CGSize(width: 1.5*runBtn.frame.size.width, height: runBtn.frame.size.height)
         startBtnCode.position = CGPoint(x: commentLbl.position.x, y: screenHeight/5)
         self.addChild(startBtnCode)
         
-        startBtn = SKSpriteNode(imageNamed: "startBtn")
-        startBtn.size = CGSize(width: screenWidth/5, height: 0.45*screenWidth/5)
-        startBtn.position = CGPoint(x: screenWidth/3 - 5, y: screenHeight/2)
-        self.addChild(startBtn)
-        
         // first code position
         posCodeInit = CGPoint(x: commentLbl.position.x, y: commentLbl.position.y - startBtnCode.frame.size.height/2)
+        
+        let strFinal = NSAttributedString(string:"YOU FINISHED\n\(stars)/4\nCHALLENGES", attributes:
+            [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
+             NSAttributedString.Key.font: UIFont.systemFont(ofSize: FONT_SIZE+15, weight: .medium),
+             NSAttributedString.Key.paragraphStyle: paragraphCenter])
+        let finalLbl = SKLabelNode(attributedText: strFinal)
+        finalLbl.horizontalAlignmentMode = .center
+        finalLbl.verticalAlignmentMode = .center
+        finalLbl.numberOfLines = 0;
+        finalLbl.lineBreakMode = .byWordWrapping
+        finalLbl.position = CGPoint(x: screenWidth/3, y: 2*screenHeight/3)
+        self.addChild(finalLbl)
     }
     
     // MARK: - MOVES
@@ -119,12 +124,11 @@ public class InstructionsScene: SKScene {
             
             for i in codeAns {
                 if i == START_ACTION {
-                    stars += 1
                     self.goBtnClick()
                 }
             }
         }
-
+        
     }
     
     func startBtnCodeClick() {
@@ -135,7 +139,7 @@ public class InstructionsScene: SKScene {
     }
     
     func goBtnClick() {
-        let sceneMoveTo = FirstLevelScene(size: self.size)
+        let sceneMoveTo = InstructionsScene(size: self.size)
         sceneMoveTo.scaleMode = self.scaleMode
         
         let transition = SKTransition.moveIn(with: .right, duration: 1)
@@ -152,7 +156,7 @@ public class InstructionsScene: SKScene {
         
         for i in codeAns {
             if i == START_ACTION {
-                let ansSprite = SKSpriteNode(imageNamed: "startBtnCode")
+                let ansSprite = SKSpriteNode(imageNamed: "playAgainBtn")
                 ansSprite.size = CGSize(width: startBtnCode.frame.size.width, height: startBtnCode.frame.size.height)
                 ansSprite.position = CGPoint(x: posCodAt.x, y: posCodAt.y - ansSprite.frame.size.height)
                 ansSprite.name = "CODE_SPRITE"
