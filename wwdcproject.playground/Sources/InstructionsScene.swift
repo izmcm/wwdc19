@@ -30,6 +30,7 @@ public class InstructionsScene: SKScene {
         screenWidth = self.view!.frame.size.width
         screenHeight = self.view!.frame.size.height
         
+        stars = 0
         drawBoard()
     }
     
